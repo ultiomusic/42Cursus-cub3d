@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:50:16 by beeligul          #+#    #+#             */
-/*   Updated: 2023/03/22 05:36:27 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:42:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//memmove -> verilen dizileri birbirine belirlenen uzunluk kadar taşıyarak kopyalar.
 
 #include "libft.h"
 
@@ -33,11 +31,3 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 		*d++ = *s++;
 	return (dst);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	char dst[] = "merhaba";
-	printf("%s", ft_memmove(dst, dst+3, 4));
-}
-*/

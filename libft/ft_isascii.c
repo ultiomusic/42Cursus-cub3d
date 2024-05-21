@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:50:37 by beeligul          #+#    #+#             */
-/*   Updated: 2023/03/22 01:24:20 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:42:03 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,3 @@ int	ft_isascii(int c)
 	else
 		return (0);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	printf("%d", ft_isascii('a'));
-	printf("%d", ft_isascii('9'));
-	printf("%d", ft_isascii('+'));
-}
-*/

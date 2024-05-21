@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: burkaya <burkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 16:07:35 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/20 19:14:04 by burkaya          ###   ########.fr       */
+/*   Updated: 2024/05/21 17:49:01 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@
 # include "mlx/mlx.h"
 # include "libft/libft.h"
 
-typedef int t_bool;
+typedef int	t_bool;
 
 typedef struct s_map
 {
-	int		mapX;
-	int		mapY;
-	int		mapS;
+	int		map_x;
+	int		map_y;
+	int		map_s;
 	char	**map;
 }				t_map;
 
@@ -63,8 +63,8 @@ typedef struct s_ray
 	double		raydiry;
 	double		deltadistx;
 	double		deltadisty;
-	int			mapx;
-	int			mapy;
+	int			map_x;
+	int			map_y;
 	int			stepx;
 	int			stepy;
 	double		sidedistx;
@@ -112,29 +112,22 @@ typedef struct s_data
 	t_map		*map;
 	t_ray		*ray;
 	t_images	**images;
-}t_data;
+}				t_data;
 
-int	ft_init(t_data *data);
-
-/* PARSE */
-int	ft_check_input(t_data *data, char **argv);
+int		ft_init(t_data *data);
+int		ft_check_input(t_data *data, char **argv);
 char	**ft_create_map(char *file);
-
-/* MLX */
-int	ft_exit(void *param);
-int	key_hook(void *param);
-int	key_pressed(int keycode, void *param);
-int	key_released(int keycode, void *param);
-
-/* UTILS */
+int		ft_exit(void *param);
+int		key_hook(void *param);
+int		key_pressed(int keycode, void *param);
+int		key_released(int keycode, void *param);
 void	store_ray(t_data *data, int x, int y, int x2, int y2, int i);
 void	ft_fill_floor_and_ceiling(t_data *data);
 double	ft_ray_length(float x1, float y1, float x2, float y2);
-
-/* RENDER */
 void	ft_render_map(t_data *data, int render_fc);
-int ft_player_move(t_data *data);
-void ft_draw_square_on_coords(t_data *data, int x, int y, int color);
+int		ft_player_move(t_data *data);
+void	ft_draw_square_on_coords(t_data *data, int x, int y, int color);
 void	ft_ray_casting(t_data *data);
 void	ft_texture(t_data *data, int x);
+
 #endif

@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// itoa -> integer olarak verilen bir değeri ascii bir değere dönüştürür.
-
 #include "libft.h"
 
 int	len(long nb)
@@ -60,10 +58,3 @@ char	*ft_itoa(int n)
 	}
 	return (dizi);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	printf("%d", ft_itoa(42));
-}
-*/

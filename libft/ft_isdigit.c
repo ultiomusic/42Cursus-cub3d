@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:50:33 by beeligul          #+#    #+#             */
-/*   Updated: 2023/03/22 01:24:40 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:42:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,3 @@ int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	printf("%d", ft_isdigit('a'));
-	printf("%d", ft_isdigit('9'));
-	printf("%d", ft_isdigit('+'));
-}
-*/

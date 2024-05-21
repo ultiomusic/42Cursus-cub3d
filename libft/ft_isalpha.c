@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 14:50:40 by beeligul          #+#    #+#             */
-/*   Updated: 2023/03/22 01:24:04 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:42:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,3 @@ int	ft_isalpha(int c)
 	else
 		return (0);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	printf("%d", ft_isalpha('a'));
-	printf("%d", ft_isalpha('9'));
-	printf("%d", ft_isalpha('+'));
-}
-*/

@@ -18,14 +18,3 @@ void	ft_putstr_fd(char *s, int fd)
 		return ;
 	write(fd, s, ft_strlen(s));
 }
-
-/*
-#include <fcntl.h>
-int main()
-{
-	int fd;
-	
-	fd = open("test.txt", O_CREAT | O_RDWR, 777);
-	ft_putstr_fd("istanbul", fd);
- }
- */

@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// memchr -> verilen dizide aranmasını istenen uzunluğun içinde verilen karakteri arar ve ilk bulduğu yeri verir.
-
 #include "libft.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
@@ -29,11 +27,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (0);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	char *str = "greencodia";
-	printf("%s", ft_memchr(str, 'c', 8));
-}
-*/

@@ -25,15 +25,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 		i++;
 	}
 }
-/*
-#include <stdio.h>
-void func(unsigned int i, char *s)
-{
-	printf("index %d ve str %s", i , s);
-}
-int main()
-{
-	char *str = "greencodia";
-	ft_striteri(str, func);
-}
-*/

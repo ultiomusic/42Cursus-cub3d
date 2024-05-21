@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 17:21:34 by beeligul          #+#    #+#             */
-/*   Updated: 2023/03/22 01:23:42 by beeligul         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:41:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "libft.h"
 
 int	ft_isalnum(int c)
@@ -20,12 +19,3 @@ int	ft_isalnum(int c)
 	else
 		return (0);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	printf("%d", ft_isalnum('a'));
-	printf("%d", ft_isalnum('9'));
-	printf("%d", ft_isalnum('+'));
-}
-*/
