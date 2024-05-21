@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 16:07:35 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 17:49:01 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/21 22:25:55 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ int		ft_exit(void *param);
 int		key_hook(void *param);
 int		key_pressed(int keycode, void *param);
 int		key_released(int keycode, void *param);
-void	store_ray(t_data *data, int x, int y, int x2, int y2, int i);
 void	ft_fill_floor_and_ceiling(t_data *data);
 double	ft_ray_length(float x1, float y1, float x2, float y2);
 void	ft_render_map(t_data *data, int render_fc);
@@ -129,5 +128,8 @@ int		ft_player_move(t_data *data);
 void	ft_draw_square_on_coords(t_data *data, int x, int y, int color);
 void	ft_ray_casting(t_data *data);
 void	ft_texture(t_data *data, int x);
+void	ft_check_wallhit(t_data *data);
+void	ft_handle_door_interaction(t_data *data);
+void	ft_send_ray(t_data *data, int x);
 
 #endif

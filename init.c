@@ -6,96 +6,75 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 16:16:01 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 17:47:34 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/21 22:36:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	**ft_create_map(char *file)
+int	ft_load_image(t_data *data, char *texture, int index)
 {
-	char		*line;
-	char		*tmp;
-	int			fd;
-	char		**map;
-
-	line = ft_strdup("31");
-	tmp = ft_strdup("");
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		tmp = ft_strjoin_gnl(tmp, line);
-	}
-	map = ft_split(tmp, '\n');
-	return (map);
+	data->images[index] = malloc(sizeof(t_images));
+	if (!data->images[index])
+		return (1);
+	data->images[index]->img = mlx_xpm_file_to_image(data->mlx_ptr, \
+		texture, &data->images[index]->width, &data->images[index]->height);
+	data->images[index]->addr = (int *)mlx_get_data_addr(data->images[index]->img, \
+	&data->images[index]->bits_per_pixel, &data->images[index]->line_length, \
+	&data->images[index]->endian);
+	return (0);
 }
 
-static int	ft_init_images(t_data *data)
+int	ft_init_image_array(t_data *data)
 {
 	int		i;
-	char	*textures;
+	char	*textures[15];
 
-	textures[15] = {"", "textures/text1.xpm", "textures/text2.xpm", \
+	textures = {"", "textures/text1.xpm", "textures/text2.xpm", \
 	"textures/text3.xpm", "textures/text4.xpm", "textures/anime1.xpm", \
 	"textures/anime2.xpm", "textures/anime3.xpm", \
 	"textures/anime4.xpm", "textures/anime5.xpm", "textures/anime6.xpm", \
 	"textures/anime7.xpm", "textures/anime8.xpm", "textures/anime9.xpm", \
 	"textures/anime10.xpm"};
 	data->images = malloc(sizeof(t_images *) * (TOTAL_TEXTURES + 1));
+	if (!data->images)
+		return (1);
 	data->images[TOTAL_TEXTURES] = NULL;
 	i = 1;
 	while (i < TOTAL_TEXTURES + 1)
 	{
-		data->images[i] = malloc(sizeof(t_images));
-		if (!data->images[i])
+		if (ft_load_image(data, textures[i], i))
 		{
-			i = 1;
-			while (i < TOTAL_TEXTURES + 1)
-				free(data->images[i++]);
-			return (free(data->images), 1);
+			ft_free_images(data, i);
+			return (1);
 		}
-		data->images[i]->img = mlx_xpm_file_to_image(data->mlx_ptr, \
-		textures[i], &data->images[i]->width, &data->images[i]->height);
-		data->images[i]->addr = (int *)mlx_get_data_addr(data->images[i]->img, \
-		&data->images[i]->bits_per_pixel, &data->images[i]->line_length, \
-		&data->images[i]->endian);
 		i++;
 	}
+	return (0);
+}
+
+int	ft_create_main_image(t_data *data)
+{
 	data->mlx_img = mlx_new_image(data->mlx_ptr, 1920, 1080);
 	data->images[0] = malloc(sizeof(t_images));
 	if (!data->images[0])
 	{
-		i = 1;
-		while (i < TOTAL_TEXTURES + 1)
-			free(data->images[i++]);
-		return (free(data->images), 1);
+		ft_free_images(data, TOTAL_TEXTURES + 1);
+		return (1);
 	}
-	data->mlx_o_data = (int *)mlx_get_data_addr(data->mlx_img, &data->images[0]->bits_per_pixel, \
-		&data->images[0]->line_length, &data->images[0]->endian);
+	data->mlx_o_data = (int *)mlx_get_data_addr(data->mlx_img, \
+	&data->images[0]->bits_per_pixel, &data->images[0]->line_length, \
+	&data->images[0]->endian);
 	return (0);
 }
 
-void	ft_init_ray(t_ray *ray)
+int	ft_init_images(t_data *data)
 {
-	ray->deltadistx = 0;
-	ray->deltadisty = 0;
-	ray->perpwalldist = 0;
-	ray->stepx = 0;
-	ray->stepy = 0;
-	ray->sidedistx = 0;
-	ray->sidedisty = 0;
-	ray->map_x = 0;
-	ray->map_y = 0;
-	ray->side = 0;
-	ray->wall = 0;
-	ray->raydirx = 0;
-	ray->raydiry = 0;
-	ray->log = malloc(sizeof(int *) * TOTAL_RAYS);
+	if (ft_init_image_array(data))
+		return (1);
+	if (ft_create_main_image(data))
+		return (1);
+	return (0);
 }
 
 int	ft_init(t_data *data)

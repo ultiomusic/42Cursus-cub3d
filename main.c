@@ -6,42 +6,64 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 02:10:46 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 16:57:37 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/21 20:19:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_get_direction(t_data *data, char c)
+void	ft_set_direction(t_data *data, char c)
 {
 	if (c == 'N')
 	{
 		data->ray->dirx = -1;
 		data->ray->diry = 0;
-		data->ray->planex = 0;
-		data->ray->planey = 0.66;
 	}
 	else if (c == 'S')
 	{
 		data->ray->dirx = 1;
 		data->ray->diry = 0;
-		data->ray->planex = 0;
-		data->ray->planey = -0.66;
 	}
 	else if (c == 'W')
 	{
 		data->ray->dirx = 0;
 		data->ray->diry = -1;
-		data->ray->planex = -0.66;
-		data->ray->planey = 0;
 	}
 	else if (c == 'E')
 	{
 		data->ray->dirx = 0;
 		data->ray->diry = 1;
+	}
+}
+
+void	ft_set_plane(t_data *data, char c)
+{
+	if (c == 'N')
+	{
+		data->ray->planex = 0;
+		data->ray->planey = 0.66;
+	}
+	else if (c == 'S')
+	{
+		data->ray->planex = 0;
+		data->ray->planey = -0.66;
+	}
+	else if (c == 'W')
+	{
+		data->ray->planex = -0.66;
+		data->ray->planey = 0;
+	}
+	else if (c == 'E')
+	{
 		data->ray->planex = 0.66;
 		data->ray->planey = 0;
 	}
+}
+
+void	ft_get_direction(t_data *data, char c)
+{
+	ft_set_direction(data, c);
+	ft_set_plane(data, c);
 }
 
 void	ft_get_player_location(t_data *data)
