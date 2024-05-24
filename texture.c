@@ -6,13 +6,13 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/20 17:59:03 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 20:23:24 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/24 00:54:52 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	ft_texture_helper(t_data *data)
+void	ft_texture_helper(t_data *data)
 {
 	double	wallx;
 
@@ -28,8 +28,8 @@ static void	ft_texture_helper(t_data *data)
 	if (data->ray->side == 1 && data->ray->raydiry < 0)
 		data->ray->tex_x = 64 - data->ray->tex_x - 1;
 	data->ray->texstep = 1.0 * 64 / data->ray->lineheight;
-	data->ray->texpos = (data->ray->drawstart - 1080 / 2 + data->ray->lineheight
-			/ 2) * data->ray->texstep;
+	data->ray->texpos = (data->ray->drawstart - SCREENHEIGHT
+			/ 2 + data->ray->lineheight / 2) * data->ray->texstep;
 }
 
 void	ft_draw_wall_texture(t_data *data, int x, int tex_index)
@@ -42,36 +42,41 @@ void	ft_draw_wall_texture(t_data *data, int x, int tex_index)
 	{
 		texy = (int)data->ray->texpos & 63;
 		data->ray->texpos += data->ray->texstep;
-		if (i == 0)
-			i++;
-		if (i % 15 == 0)
-			i = 1;
-		if (texy >= 62)
-			texy = 61;
-		data->mlx_o_data[data->ray->drawstart * SCREENWIDTH + x]
-			= data->images[tex_index]->addr[64 * texy + data->ray->tex_x];
+		if (data->images[tex_index]->addr[64 * texy + data->ray->tex_x] > 0)
+			data->mlx_o_data[data->ray->drawstart * SCREENWIDTH + x]
+				= data->images[tex_index]->addr[64 * texy + data->ray->tex_x];
 		data->ray->drawstart++;
 		i++;
 	}
 }
 
-void	ft_draw_wall_side(t_data *data, int x)
+void	ft_draw_wall_side(t_data *data, int x, int f_flag)
 {
-	if (data->ray->side == 0 && data->ray->raydirx > 0)
-		ft_draw_wall_texture(data, x, 1);
-	else if (data->ray->side == 0 && data->ray->raydirx < 0)
-		ft_draw_wall_texture(data, x, 2);
-	else if (data->ray->side == 1 && data->ray->raydiry > 0)
-		ft_draw_wall_texture(data, x, 3);
+	if (f_flag)
+	{
+		if (data->ray->side == 0 && data->ray->raydirx < 0)
+			ft_draw_wall_texture(data, x, f_flag);
+	}
 	else
-		ft_draw_wall_texture(data, x, 4);
+	{
+		if (data->ray->side == 0 && data->ray->raydirx > 0)
+			ft_draw_wall_texture(data, x, 1);
+		else if (data->ray->side == 0 && data->ray->raydirx < 0)
+			ft_draw_wall_texture(data, x, 2);
+		else if (data->ray->side == 1 && data->ray->raydiry > 0)
+			ft_draw_wall_texture(data, x, 3);
+		else
+			ft_draw_wall_texture(data, x, 4);
+	}
 }
 
-void	ft_texture(t_data *data, int x)
+void	ft_texture(t_data *data, int x, int f_flag)
 {
 	ft_texture_helper(data);
-	if (data->ray->wall == 1)
-		ft_draw_wall_side(data, x);
+	if (data->ray->wall == 1 || f_flag)
+		ft_draw_wall_side(data, x, f_flag);
 	else if (data->ray->wall == 2)
-		ft_draw_wall_texture(data, x, 4);
+		ft_draw_wall_texture(data, x, 5);
+	else if (data->ray->wall == 4)
+		ft_draw_wall_texture(data, x, 7);
 }

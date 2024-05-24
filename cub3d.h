@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 16:07:35 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 22:25:55 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/24 01:53:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@
 # define LEFT_ARROW 123
 # define RIGHT_ARROW 124
 # define TILE_SIZE 16
-# define TOTAL_RAYS 1920
+# define TOTAL_RAYS 1280
 # define PLAYER_SIZE 5
 # define TOTAL_TEXTURES 14
-# define SCREENHEIGHT 1080
-# define SCREENWIDTH 1920
+# define SCREENHEIGHT 512
+# define SCREENWIDTH 1280
+# define MINIMAPWIDTH 7
+# define MINIMAPHEIGHT 7
 
 # include <stdio.h>
 # include <unistd.h>
@@ -43,7 +45,16 @@ typedef struct s_map
 	int		map_x;
 	int		map_y;
 	int		map_s;
+	char	**floor;
+	char	**ceiling;
+	int		floor_color;
+	int		ceiling_color;
 	char	**map;
+	char	**flood_fill;
+	char	**wall_textures;
+	char 	*floor_str;
+	char 	*ceiling_str;
+	char	*map_str;
 }				t_map;
 
 typedef struct s_ray
@@ -81,8 +92,9 @@ typedef struct s_ray
 	double		texpos;
 	int			key_a;
 	int			key_d;
-	int			**log;
-}	t_ray;
+	int			user_x;
+	int			user_y;
+}				t_ray;
 
 typedef struct s_images
 {
@@ -93,7 +105,7 @@ typedef struct s_images
 	int		endian;
 	int		width;
 	int		height;
-}				t_images;
+}			t_images;
 
 typedef struct s_data
 {
@@ -101,6 +113,8 @@ typedef struct s_data
 	void		*win_ptr;
 	void		*mlx_img;
 	int			*mlx_o_data;
+	char		*map_path;
+	int			map_fd;
 	t_bool		w_pressed;
 	t_bool		a_pressed;
 	t_bool		s_pressed;
@@ -114,22 +128,115 @@ typedef struct s_data
 	t_images	**images;
 }				t_data;
 
-int		ft_init(t_data *data);
+/* CHECK */
+int		check_extension(char *file);
 int		ft_check_input(t_data *data, char **argv);
-char	**ft_create_map(char *file);
-int		ft_exit(void *param);
-int		key_hook(void *param);
-int		key_pressed(int keycode, void *param);
-int		key_released(int keycode, void *param);
-void	ft_fill_floor_and_ceiling(t_data *data);
-double	ft_ray_length(float x1, float y1, float x2, float y2);
-void	ft_render_map(t_data *data, int render_fc);
-int		ft_player_move(t_data *data);
-void	ft_draw_square_on_coords(t_data *data, int x, int y, int color);
-void	ft_ray_casting(t_data *data);
-void	ft_texture(t_data *data, int x);
+
+/* CHECK_HELPER */
+void	check_flood(t_data *data);
+void	flood_fill(t_data *data, int y, int x);
+void	initialize_and_process_map(t_data *data);
+void	validate_map(t_data *data);
+void	process_and_validate_map(t_data *data);
+
+/* CHECK_MAP_HELPER */
+void	ft_error(char *str, t_data *data);
+int		player(char c);
+void	check_player_amount(t_data *data);
+void	check_map_characters(t_data *data);
+void	ft_print_map(char **map);
+
+/* CHECK_MAP_STARS */
+void	ft_check_star_neighbors(t_data *data, int i, int j);
+void	ft_check_stars(t_data *data);
+void	ft_check_border(t_data *data);
+
+/* DRAW */
 void	ft_check_wallhit(t_data *data);
-void	ft_handle_door_interaction(t_data *data);
+void	ft_wallhit(t_data *data);
+void	ft_raydist(t_data *data);
 void	ft_send_ray(t_data *data, int x);
+
+/* DRAW_HELPER */
+void	ft_ray_casting_for_sp(t_data *data, int x, int i);
+void	ft_ray_casting(t_data *data);
+void	ft_direction(t_data *data);
+
+/* DRAW_SP */
+int		ft_check_sphit(t_data *data;
+int		ft_sphit(t_data *data);
+void	ft_send_ray_for_sp(t_data *data, int x, int i);
+
+/* INIT */
+int		ft_read_and_process_map(t_data *data);
+int		ft_init_image_array(t_data *data);
+int		ft_create_main_image(t_data *data);
+int		ft_init_images(t_data *data);
+int		ft_init(t_data *data);
+
+/* INIT_HELPER */
+void	ft_get_floor_ceiling(t_data *data);
+int		ft_get_longest_index(char **map);
+void	ft_create_map(t_data *data);
+void	ft_free_images(t_data *data, int max);
+void	ft_init_ray(t_ray *ray);
+
+/* INIT_HELPER2 */
+int		ft_is_multiple_map(char *str);
+int		read_and_concatenate_map(int fd, char **result);
+void	process_map_data(t_data *data, char *map_data);
+
+/* LOAD */
+int		ft_load_walls(t_data *data, char *texture, int index);
+void	ft_load_image(t_data *data, char *texture, int index);
+void	ft_load_other_images(t_data *data, int i);
+
+/* MLX_FUNCS */
+int		ft_exit(void *param);
+void	ft_render_hand(t_data *data)
+int		key_hook(void *param)
+int		key_pressed(int keycode, void *param)
+int		key_released(int keycode, void *param)
+
+/* MOVE */
+void	key_left(t_data *data);
+void	key_right(t_data *data);
+void	ft_move(t_data *data);
+int		ft_player_move(t_data *data);
+
+/* MOVE_HELPER */
+int		is_character(char c, t_data *data);
+void	key_w(t_data *data);
+void	key_s(t_data *data);
+void	key_d(t_data *data;
+void	key_a(t_data *data);
+
+/* RENDER */
+void	ft_fill_pixel(t_data *data, int x, int y, char type);
+void	ft_render_map_helper(t_data *data, int i, int j);
+void	ft_render_map(t_data *data, int render_fc);
+
+/* SPLIT_NEW_LINES */
+char	**ft_split_new_lines(char const *str);
+
+/* TEXTURE */
+void	ft_texture_helper(t_data *data);
+void	ft_draw_wall_texture(t_data *data, int x, int tex_index);
+void	ft_draw_wall_side(t_data *data, int x, int f_flag);
+void	ft_texture(t_data *data, int x, int f_flag);
+
+/* UTILS */
+void	ft_fill_floor_and_ceiling(t_data *data);
+int		ft_tab_len(char **tab);
+
+/* WALL_CHECK */
+void	ft_wall_check(t_data *data);
+void	ft_wall_check1(t_data *data);
+
+/* MAIN */
+void	ft_set_direction(t_data *data, char c);
+void	ft_set_plane(t_data *data, char c);
+void	ft_get_direction(t_data *data, char c);
+void	ft_get_player_location(t_data *data);
 
 #endif

@@ -6,33 +6,56 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 21:46:45 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/21 21:47:23 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/24 01:39:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-char	**ft_create_map(char *file)
+void	ft_get_floor_ceiling(t_data *data)
 {
-	char		*line;
-	char		*tmp;
-	int			fd;
-	char		**map;
+	data->map->floor = ft_split(data->map->floor_str + 2, ',');
+	data->map->ceiling = ft_split(data->map->ceiling_str + 2, ',');
+	data->map->floor_color = ft_atoi(data->map->floor[0]) * 65536 + \
+		ft_atoi(data->map->floor[1]) * 256 + ft_atoi(data->map->floor[2]);
+	data->map->ceiling_color = ft_atoi(data->map->ceiling[0]) * 65536 + \
+		ft_atoi(data->map->ceiling[1]) * 256 + ft_atoi(data->map->ceiling[2]);
+}
 
-	line = ft_strdup("31");
-	tmp = ft_strdup("");
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
-	while (1)
+int	ft_get_longest_index(char **map)
+{
+	int	i;
+	int	j;
+	int	max;
+
+	i = 0;
+	max = 0;
+	while (map[i])
 	{
-		line = get_next_line(fd);
-		if (!line)
-			break ;
-		tmp = ft_strjoin_gnl(tmp, line);
+		j = 0;
+		while (map[i][j])
+			j++;
+		if (j > max)
+			max = j;
+		i++;
 	}
-	map = ft_split(tmp, '\n');
-	return (map);
+	return (max);
+}
+
+void	ft_create_map(t_data *data)
+{
+	char		*tmp;
+
+	tmp = ft_strdup("");
+	if (ft_is_multiple_map(data->map->map_str))
+	{
+		printf("Error\nMultiple maps detected\n");
+		exit(1);
+	}
+	data->map->map = ft_split(data->map->map_str, '\n');
+	data->map->flood_fill = ft_split(data->map->map_str, '\n');
+	data->map->map_x = ft_get_longest_index(data->map->map);
+	data->map->map_y = ft_tab_len(data->map->map);
 }
 
 void	ft_free_images(t_data *data, int max)
@@ -64,5 +87,4 @@ void	ft_init_ray(t_ray *ray)
 	ray->wall = 0;
 	ray->raydirx = 0;
 	ray->raydiry = 0;
-	ray->log = malloc(sizeof(int *) * TOTAL_RAYS);
 }

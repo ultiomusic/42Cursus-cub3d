@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:01:03 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 22:25:14 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/24 00:54:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,34 @@ void	ft_fill_floor_and_ceiling(t_data *data)
 
 	i = 0;
 	n = 0;
-	while (i < 1080 / 2)
+	while (i < SCREENHEIGHT / 2)
 	{
 		n = 0;
-		while (n < 1920)
+		while (n < SCREENWIDTH)
 		{
-			data->mlx_o_data[i * 1920 + n] = 0x00575757;
+			data->mlx_o_data[i * SCREENWIDTH + n] = data->map->ceiling_color;
 			n++;
 		}
 		i++;
 	}
-	while (i < 1080)
+	while (i < SCREENHEIGHT)
 	{
 		n = 0;
-		while (n < 1920)
+		while (n < SCREENWIDTH)
 		{
-			data->mlx_o_data[i * 1920 + n] = 0x005b95b0;
+			data->mlx_o_data[i * SCREENWIDTH + n] = data->map->floor_color;
 			n++;
 		}
 		i++;
 	}
+}
+
+int	ft_tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 02:08:21 by burkaya           #+#    #+#             */
-/*   Updated: 2024/05/21 20:18:02 by codespace        ###   ########.fr       */
+/*   Updated: 2024/05/24 00:50:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_check_wallhit(t_data *data)
 			else
 				data->ray->wall = 3;
 		}
+		else if (data->map->map[data->ray->map_x][data->ray->map_y] == 'U')
+			data->ray->wall = 4;
 		else
 			data->ray->wall = 1;
 	}
@@ -56,39 +58,15 @@ void	ft_raydist(t_data *data)
 		data->ray->perpwalldist = data->ray->sidedistx - data->ray->deltadistx;
 	else
 		data->ray->perpwalldist = data->ray->sidedisty - data->ray->deltadisty;
-	data->ray->lineheight = (int)(1080 / data->ray->perpwalldist * 2);
-	data->ray->drawstart = -data->ray->lineheight / 2 + 1080 / 2;
+	if (data->ray->perpwalldist < 0.001)
+		data->ray->perpwalldist += 0.001;
+	data->ray->lineheight = (int)(SCREENHEIGHT / data->ray->perpwalldist * 2);
+	data->ray->drawstart = -data->ray->lineheight / 2 + SCREENHEIGHT / 2;
 	if (data->ray->drawstart < 0)
 		data->ray->drawstart = 0;
-	data->ray->drawend = data->ray->lineheight / 2 + 1080 / 2;
-	if (data->ray->drawend >= 1080)
-		data->ray->drawend = 1080 - 1;
-}
-
-void	ft_handle_door_interaction(t_data *data)
-{
-	if (data->ray->wall == 3 && data->ray->perpwalldist
-		< 1.5 && !data->e_pressed)
-	{
-		data->ray->wall = 0;
-		data->is_door_open = 0;
-		ft_wallhit(data);
-		ft_raydist(data);
-	}
-	else if (data->e_pressed && data->ray->wall == 2
-		&& data->ray->perpwalldist < 1.5)
-	{
-		data->ray->wall = 0;
-		data->is_door_open = 1;
-		ft_wallhit(data);
-		ft_raydist(data);
-	}
-	else if (data->e_pressed && data->ray->wall == 3
-		&& data->ray->perpwalldist < 1.5)
-	{
-		ft_wallhit(data);
-		ft_raydist(data);
-	}
+	data->ray->drawend = data->ray->lineheight / 2 + SCREENHEIGHT / 2;
+	if (data->ray->drawend >= SCREENHEIGHT)
+		data->ray->drawend = SCREENHEIGHT - 1;
 }
 
 void	ft_send_ray(t_data *data, int x)
@@ -96,6 +74,7 @@ void	ft_send_ray(t_data *data, int x)
 	ft_direction(data);
 	ft_wallhit(data);
 	ft_raydist(data);
-	ft_handle_door_interaction(data);
-	ft_texture(data, x);
+	ft_wall_check(data);
+	ft_wall_check1(data);
+	ft_texture(data, x, 0);
 }
