@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_new_lines.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 23:46:56 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/24 01:25:20 by codespace        ###   ########.fr       */
+/*   Created: 2024/05/24 02:04:58 by beeligul          #+#    #+#             */
+/*   Updated: 2024/05/24 02:04:59 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

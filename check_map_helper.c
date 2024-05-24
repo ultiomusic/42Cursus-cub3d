@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 23:52:47 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/23 23:53:05 by codespace        ###   ########.fr       */
+/*   Created: 2024/05/24 02:03:21 by beeligul          #+#    #+#             */
+/*   Updated: 2024/05/24 02:03:23 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

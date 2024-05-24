@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_stars.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 01:00:12 by codespace         #+#    #+#             */
-/*   Updated: 2024/05/24 01:06:06 by codespace        ###   ########.fr       */
+/*   Created: 2024/05/24 02:03:37 by beeligul          #+#    #+#             */
+/*   Updated: 2024/05/24 02:03:37 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
