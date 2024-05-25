@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 02:04:15 by beeligul          #+#    #+#             */
-/*   Updated: 2024/05/24 02:04:16 by beeligul         ###   ########.fr       */
+/*   Created: 2024/05/24 16:56:59 by burkaya           #+#    #+#             */
+/*   Updated: 2024/05/25 01:10:31 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_load_walls(t_data *data, char *texture, int index)
 		return (1);
 	data->images[index]->img = mlx_xpm_file_to_image(data->mlx_ptr, \
 		texture, &data->images[index]->width, &data->images[index]->height);
+	if (!data->images[index]->img)
+		return (1);
 	data->images[index]->addr = \
 	(int *)mlx_get_data_addr(data->images[index]->img, \
 	&data->images[index]->bits_per_pixel, &data->images[index]->line_length, \

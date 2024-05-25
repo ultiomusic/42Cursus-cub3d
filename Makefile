@@ -1,10 +1,10 @@
-SRCS	= check.c check_map.c check_map_helper.c check_map_stars.c draw.c draw_helper.c draw_sp.c init.c init_helper.c init_helper2.c load.c main.c mlx_funcs.c move.c move_helper.c render.c split_new_lines.c texture.c utils.c wall_check.c
+SRCS	= check.c draw.c draw_helper.c init.c init_helper.c init_helper2.c ft_split_new_lines.c main.c mlx_funcs.c move.c move_helper.c render.c texture.c utils.c wall_check.c draw_sp.c load.c check_map.c check_map_helper.c flood_fill.c free.c
 OBJS	= $(SRCS:.c=.o)
 
 # Path: src/Makefile
 NAME	= cub3D
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror  -g -o3 -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 RM		= rm -f
 MLX		= ./mlx/libmlx.a
 MLX_DIR	= ./mlx

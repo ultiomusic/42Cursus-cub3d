@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_new_lines.c                                  :+:      :+:    :+:   */
+/*   ft_split_new_lines.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 02:04:58 by beeligul          #+#    #+#             */
-/*   Updated: 2024/05/24 02:04:59 by beeligul         ###   ########.fr       */
+/*   Created: 2024/05/24 16:56:44 by burkaya           #+#    #+#             */
+/*   Updated: 2024/05/25 01:07:38 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,49 +33,53 @@ static int	ft_countwords(char const *str)
 	return (count);
 }
 
-char	**ft_split_new_lines(char const *str)
+char	**get_len_and_alloc(char *str)
 {
-	char	*s;
+	int		len;
+	char	**tab;
+
+	len = ft_countwords(str);
+	if (len < 3)
+		return (ft_error("Map is too small", NULL), NULL);
+	tab = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!tab)
+		return (ft_error("Malloc failed", NULL), NULL);
+	return (tab);
+}
+
+static void	ft_split_helper(int *k, int *i, char *str)
+{
+	*k = *i - 2;
+	while (str[(*i)] != '\0' \
+	&& !((*i) >= 2 && str[(*i) - 1] == '\n' && str[(*i) - 2] == '\n'))
+		(*i)++;
+	while (str[(*i)] == '\n')
+		(*i)++;
+}
+
+char	**ft_split_new_lines(char *str)
+{
 	char	**tab;
 	int		i;
 	int		k;
 	int		tab_index;
-	int		len;
 
-	if (!str)
-		return (NULL);
 	i = 0;
-	s = (char *)str;
-	while (s[i] == '\n')
+	while (str[i] == '\n')
 		i++;
-	s += i;
-	s = ft_strdup(s);
-	len = ft_countwords(s);
-	if (len < 3)
-	{
-		printf("Error (1)\n");
-		exit(0);
-	}
-	tab = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!tab)
-		return (NULL);
+	str += i;
+	tab = get_len_and_alloc(str);
 	i = 2;
 	tab_index = 0;
 	k = 0;
-	while (s[i])
+	while (str[i])
 	{
-		k = i - 2;
-		while (s[i] != '\0' \
-		&& !(i >= 2 && s[i - 1] == '\n' && s[i - 2] == '\n'))
-			i++;
-		while (s[i] == '\n')
-			i++;
+		ft_split_helper(&k, &i, str);
 		if (i > k)
-			tab[tab_index++] = ft_substr(s, k, i - k);
-		if (s[i] == '\0')
+			tab[tab_index++] = ft_substr(str, k, i - k);
+		if (str[i++] == '\0')
 			break ;
-		i++;
-		while (s[i] == '\n')
+		while (str[i] == '\n')
 			i++;
 	}
 	tab[tab_index] = NULL;

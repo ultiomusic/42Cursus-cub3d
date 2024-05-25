@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 02:04:00 by beeligul          #+#    #+#             */
-/*   Updated: 2024/05/24 02:04:01 by beeligul         ###   ########.fr       */
+/*   Created: 2024/05/24 16:56:48 by burkaya           #+#    #+#             */
+/*   Updated: 2024/05/25 01:12:04 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 void	ft_get_floor_ceiling(t_data *data)
 {
+	char	**tmp_floor;
+	char	**tmp_ceiling;
+
+	tmp_floor = ft_split(data->map->floor_str, ' ');
+	tmp_ceiling = ft_split(data->map->ceiling_str, ' ');
+	if (ft_tab_len(tmp_floor) != 2 || ft_tab_len(tmp_ceiling) != 2
+		|| ft_strcmp(tmp_floor[0], "F") || ft_strcmp(tmp_ceiling[0], "C"))
+		ft_error("Invalid floor or ceiling color", data);
 	data->map->floor = ft_split(data->map->floor_str + 2, ',');
 	data->map->ceiling = ft_split(data->map->ceiling_str + 2, ',');
 	data->map->floor_color = ft_atoi(data->map->floor[0]) * 65536 + \
@@ -44,14 +52,9 @@ int	ft_get_longest_index(char **map)
 
 void	ft_create_map(t_data *data)
 {
-	char		*tmp;
-
-	tmp = ft_strdup("");
+	ft_get_floor_ceiling(data);
 	if (ft_is_multiple_map(data->map->map_str))
-	{
-		printf("Error\nMultiple maps detected\n");
-		exit(1);
-	}
+		ft_error("Multiple maps", data);
 	data->map->map = ft_split(data->map->map_str, '\n');
 	data->map->flood_fill = ft_split(data->map->map_str, '\n');
 	data->map->map_x = ft_get_longest_index(data->map->map);

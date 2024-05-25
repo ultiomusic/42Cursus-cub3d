@@ -5,21 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 02:03:21 by beeligul          #+#    #+#             */
-/*   Updated: 2024/05/24 02:03:23 by beeligul         ###   ########.fr       */
+/*   Created: 2024/05/24 16:56:17 by burkaya           #+#    #+#             */
+/*   Updated: 2024/05/25 01:18:05 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	ft_error(char *str, t_data *data)
-{
-	ft_putstr_fd("Error\n", 2);
-	ft_putstr_fd(str, 2);
-	ft_putchar_fd('\n', 2);
-	free(data->map->map);
-	exit(0);
-}
 
 int	player(char c)
 {

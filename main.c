@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 02:04:25 by beeligul          #+#    #+#             */
-/*   Updated: 2024/05/24 02:04:26 by beeligul         ###   ########.fr       */
+/*   Created: 2024/05/16 02:10:46 by burkaya           #+#    #+#             */
+/*   Updated: 2024/05/25 01:10:12 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	ft_get_player_location(t_data *data)
 		}
 		i++;
 	}
+	ft_error("Player not found", data);
 }
 
 int	main(int argc, char **argv)
@@ -101,20 +102,15 @@ int	main(int argc, char **argv)
 	data->map_path = argv[1];
 	if (ft_init(data))
 		return (printf("Error\n"), 0);
-	if (ft_check_input(data, argv))
-		return (printf("Error\n"), 0);
 	ft_create_map(data);
-	if (!data->map->map)
-		return (free(data->ray), free(data->map), free(data), 1);
 	ft_get_player_location(data);
 	system("afplay ./regular_show.mpeg &");
-	process_and_validate_map(data);
+	ft_check_map(data);
 	mlx_mouse_move(data->win_ptr, SCREENWIDTH / 2, SCREENHEIGHT / 2);
-	printf("data->ray->posx: %f\n", data->ray->posx);
-	printf("data->ray->posy: %f\n", data->ray->posy);
 	mlx_loop_hook(data->mlx_ptr, key_hook, data);
 	mlx_hook(data->win_ptr, 3, 0, key_released, data);
 	mlx_hook(data->win_ptr, 2, 0, key_pressed, data);
 	mlx_hook(data->win_ptr, 17, 0, ft_exit, data);
 	mlx_loop(data->mlx_ptr);
+	ft_free_data(data);
 }

@@ -5,14 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: beeligul <beeligul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 02:03:31 by beeligul          #+#    #+#             */
-/*   Updated: 2024/05/24 02:03:32 by beeligul         ###   ########.fr       */
+/*   Created: 2024/05/23 09:25:03 by burkaya           #+#    #+#             */
+/*   Updated: 2024/05/25 01:18:12 by beeligul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_flood(t_data *data)
+void	ft_check_stars_helper(t_data *data, int i, int j, char *line)
+{
+	if (j > 0 && !(line[j - 1] == '*' || line[j - 1] == '1'))
+		ft_error("Map is not closed from left", data);
+	if (j < (int)ft_strlen(line) - 1 && !(line[j + 1] == '*' \
+		|| line[j + 1] == '1'))
+		ft_error("Map is not closed from right", data);
+	if (i > 0 && !(data->map->map[i - 1][j] == '*' \
+		|| data->map->map[i - 1][j] == '1'))
+		ft_error("Map is not closed from up", data);
+	if (i < data->map->map_y - 1
+		&& !(data->map->map[i + 1][j] == '*' \
+		|| data->map->map[i + 1][j] == '1'))
+		ft_error("Map is not closed from down", data);
+}
+
+void	ft_check_stars(t_data *data)
+{
+	int		i;
+	int		j;
+	char	*line;
+
+	i = 0;
+	while (i < data->map->map_y)
+	{
+		j = 0;
+		line = data->map->map[i];
+		while (j < (int)ft_strlen(line))
+		{
+			if (line[j] == '*')
+				ft_check_stars_helper(data, i, j, line);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	ft_check_border(t_data *data)
 {
 	int	i;
 	int	j;
@@ -23,15 +60,11 @@ void	check_flood(t_data *data)
 		j = 0;
 		while (j < (int)ft_strlen(data->map->map[i]))
 		{
-			if (player(data->map->flood_fill[i][j])
-			|| data->map->flood_fill[i][j] == '0'
-			|| data->map->flood_fill[i][j] == '1')
+			if (i == 0 || i == data->map->map_y - 1 || j == 0 \
+			|| j == (int)ft_strlen(data->map->map[i]) - 1)
 			{
-				ft_print_map(data->map->flood_fill);
-				printf("data->map->flood_fill[%d][%d]: %c\n", i, j, \
-						data->map->flood_fill[i][j]);
-				ft_error("hata", data);
-				exit(0);
+				if (data->map->map[i][j] != '1' && data->map->map[i][j] != '*')
+					ft_error("Map is not closed from border", data);
 			}
 			j++;
 		}
@@ -39,30 +72,11 @@ void	check_flood(t_data *data)
 	}
 }
 
-void	flood_fill(t_data *data, int y, int x)
+void	get_new_map(t_data *data)
 {
-	if (y < 0 || x < 0 || y >= data->map->map_y \
-	|| x >= (int)ft_strlen(data->map->map[y]) \
-	|| data->map->flood_fill[y][x] == 'F')
-		return ;
-	if (data->map->flood_fill[y][x] == '0' || data->map->flood_fill[y][x] == 'U'
-	|| data->map->flood_fill[y][x] == '2' || data->map->flood_fill[y][x] == 'N'
-	|| data->map->flood_fill[y][x] == 'S' || data->map->flood_fill[y][x] == 'W'
-	|| data->map->flood_fill[y][x] == 'E' || data->map->flood_fill[y][x] == '1')
-	{
-		data->map->flood_fill[y][x] = 'F';
-		flood_fill(data, y + 1, x);
-		flood_fill(data, y - 1, x);
-		flood_fill(data, y, x + 1);
-		flood_fill(data, y, x - 1);
-	}
-}
-
-void	initialize_and_process_map(t_data *data)
-{
+	char	**mapp;
 	int		i;
 	int		j;
-	char	**mapp;
 
 	i = 0;
 	mapp = malloc(sizeof(char *) * (data->map->map_y + 1));
@@ -81,21 +95,17 @@ void	initialize_and_process_map(t_data *data)
 		i++;
 	}
 	mapp[i] = NULL;
+	ft_free_array(data->map->map);
 	data->map->map = mapp;
 }
 
-void	validate_map(t_data *data)
+void	ft_check_map(t_data *data)
 {
 	flood_fill(data, (int)data->ray->posy, (int)data->ray->posx);
 	check_flood(data);
 	check_player_amount(data);
 	check_map_characters(data);
+	get_new_map(data);
 	ft_check_stars(data);
 	ft_check_border(data);
-}
-
-void	process_and_validate_map(t_data *data)
-{
-	initialize_and_process_map(data);
-	validate_map(data);
 }
